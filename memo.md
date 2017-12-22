@@ -12,6 +12,8 @@ http://forum.developers.naver.com/t/c-api/7712
 # git 관련 내용모음
 	* [git] 작업의 취소 url
 		* http://ecogeo.tistory.com/276
+	* git flow 관련 
+		* http://ohgyun.com/402
 
 # google api
 ## google calendar
