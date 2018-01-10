@@ -44,3 +44,10 @@ http://forum.developers.naver.com/t/c-api/7712
 # 샘플 찾던중 참고 링크
 ## gRPC란?
 * http://postitforhooney.tistory.com/entry/RPCgRPC-%EC%A0%81%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-gRPC-%EB%B6%84%EC%84%9D-gPRC%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80
+
+
+# vim 환경 설정시 참고 링크
+* plugin 설치
+	* http://vlee.kr/1211
+* 테마 설치
+	* https://bluesh55.github.io/2016/10/09/vim-ide/
