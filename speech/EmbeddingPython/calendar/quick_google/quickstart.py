@@ -50,13 +50,24 @@ def get_credentials():
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
-   
- #def print_calendar(start, event):
- #    nowDate = now.strftime('%y-%m-%d') #datetime.datetime.now() 
- #    print(nowDate)
+
+def time_check(calendar_day):
+    """
+    time compare
+    nowDate == input_date:calendar_day return True
+    nowDate != input_date:calendar_day return False
+    """
+    now = datetime.datetime.now()
+    nowDate = now.strftime('%Y-%m-%d') #datetime.datetime.now() 
+
+    if nowDate in calendar_day:
+        return True
+    else:
+        return False
 
 def get_calendar_info():
-    """Shows basic usage of the Google Calendar API.
+    """
+    Shows basic usage of the Google Calendar API.
     Creates a Google Calendar API service object and outputs a list of the next
     10 events on the user's calendar.
     """
@@ -70,54 +81,19 @@ def get_calendar_info():
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
+
     if not events:
         print('No upcomming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
- #      print_calendar(start, event['summary'])
-
-def time_check(calendar_day):
-    now = datetime.datetime.now()
-    nowDate = now.strftime('%Y-%m-%d') #datetime.datetime.now() 
-    if nowDate in calendar_day:
-        print(True)
-    else:
-        print("calendar_day : ", calendar_day)
-        print("nowDate : ", nowDate)
-
+        print(time_check(start))
+        print(start, event['summary'])
 
 def main():
-    time_check("2018-02-05")
+    get_calendar_info()
+#   print(time_check("2018-02-04"))
 
 if __name__ == '__main__':
     main()
 
-
-
- #      print(event['start'].get('dateTime', 'de'))
-   #    print(json.dumps(start, indent=4), event['summary'])
- #        print("-------------------------------------------------------")
- #    date_json = json.dumps(eventsResult,indent=4)
- #    f = open("calendar_json",'w')
- #    f.write(date_json)
- #    f.close()
- #    print(json.dumps(eventsResult,indent=4))
- #
- #    print("-------------------------------------------------------")
- #    get_calendar_event()
-
-    # ----------------------- test -----------------------
- #    print("type(events)", type(events))
- #    f = open("events.txt",'w')
- #    for event in events:
- #        start = event['start'].get('dateTime', event['start'].get('date'))
- #        f.write(start)
- #    f.close()
- #    print("now : type",type(now))
- #    print("events :",events[0])
- #    date_check = datetime.datetime.now()
- #    print("date_check : ", date_check)
- #    print(event['start'].get('dateTime', event['start'].get('date')))
- #
-    # ----------------------- test -----------------------
 
