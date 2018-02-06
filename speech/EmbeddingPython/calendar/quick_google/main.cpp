@@ -14,10 +14,11 @@ int main(int argc,char** argv)
 {
     PyObject *pName, *pModule;
     PyObject *pget_calendar_info, *ptime_check, *pget_credentials;
-    Py_Initalize();
+
+    Py_Initialize();
     
     // start set path
-    PyObject *sys = PyImport_ImportMoule("sys");
+    PyObject *sys = PyImport_ImportModule("sys");
     PyObject *path = PyObject_GetAttrString(sys,"path");
     PyList_Append(path, PyString_FromString("."));
 
@@ -29,17 +30,30 @@ int main(int argc,char** argv)
     if(pModule != NULL)
     {
         // module load
-        pget_calendar_info = Pyobject_GetAttrString(pModule, "get_calendar_inof")
-        ptime_check = PyObject_GetAttrString(pModule, "time_check")
-        pget_credentials = PyObject_GetAttrString(pModule,"get_credentials" )
+        pget_calendar_info = PyObject_GetAttrString(pModule, "get_calendar_info");
+        ptime_check = PyObject_GetAttrString(pModule, "time_check");
+        pget_credentials = PyObject_GetAttrString(pModule,"get_credentials" );
         // module load error check
-        if(!(pget_calendar_info && Pycasllable_Check(pget_calendar_info)))
+        if(!(pget_calendar_info && PyCallable_Check(pget_calendar_info)))
         {
-            if(PyErr_Occuerred()) PyErr_Print();
+            if(PyErr_Occurred()) PyErr_Print();
             cout << "Cannot find function 'get_calendar_info'"<< endl;
             return 1;
         }
-
+        if(!(ptime_check && PyCallable_Check(ptime_check)))
+        {
+            if(PyErr_Occurred()) PyErr_Print();
+            cout<< "Cannot find function 'time_check '"<< endl;
+            return 1;
+        }
+        if(!(pget_credentials && PyCallable_Check(pget_credentials)))
+        {
+            if(PyErr_Occurred()) PyErr_Print();
+            cout << "Cannot find function 'get_credentials'" <<endl;
+            return 1;
+        }
     }
+    return 1;
+}
 
 
