@@ -34,7 +34,6 @@ SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 CLIENT_SECRET_FILE = '/home/pi/git_refo/smartmirror/speech/EmbeddingPython/calendar/quick_google/client_secret_633702561980-l5hu5n4tfo4hd64po79s803039pj1u6c.apps.googleusercontent.com'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
-
 # =================================================
 # get calendar credentials 
 # =================================================
@@ -102,7 +101,6 @@ def get_calendar_info():
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
-    page_token = None
 
     if not events:
         print('No upcomming events found')
@@ -115,18 +113,27 @@ def get_calendar_info():
 # calendar event get function
 # =================================================
 def get_eventList():
-    while True:
-    events = service.events().list(calendarId='primary', pageToken=page_token).execute()
-    for event in events['items']:
-    print(event['summary'])
-    page_token = events.get('nextPageToken')
-    if not page_token:
-    break
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    print('Getting the events')
+#    eventsResult = service.events().list(
+#        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+#        orderBy='startTime').execute()
+#    events = eventsResult.get('items', [])
+
+    event = service.events().get(calendarId='primary', eventId='eventId').execute()
+
+    print(json.loads(events))
+
 
 
 def main():
-     get_calendar_info()
 #    print(time_check("2018-02-04"))
+#get_calendar_info()
+    get_eventList()
 
 if __name__ == '__main__':
     main()
