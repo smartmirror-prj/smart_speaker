@@ -1,13 +1,25 @@
 from __future__ import print_function
-import httplib2
-import os
 
-from apiclient import discovery
-from oauth2client import client
+# =================================================
+# from & import => module
+# =================================================
+from googleapiclient import sample_tools
 from oauth2client import tools
 from oauth2client.file import Storage
+from oauth2client import client
+from apiclient import discovery
 
+
+# =================================================
+# import => module
+# =================================================
+import os
+import httplib2
 import datetime
+import io
+import sys
+if not hasattr(sys,'argv'):
+    sys.argv=[]
 import json
 
 try:
@@ -23,12 +35,13 @@ CLIENT_SECRET_FILE = '/home/pi/git_refo/smartmirror/speech/EmbeddingPython/calen
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 
+# =================================================
+# get calendar credentials 
+# =================================================
 def get_credentials():
     """Gets valid user credentials from storage.
-
     If nothing has been stored, or if the stored credentials are invalid,
     the OAuth2 flow is completed to obtain the new credentials.
-
     Returns:
         Credentials, the obtained credential.
     """
@@ -51,6 +64,10 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+
+# =================================================
+# nowDate == calendarDate check
+# =================================================
 def time_check(calendar_day):
     """
     time compare
@@ -65,6 +82,10 @@ def time_check(calendar_day):
     else:
         return False
 
+
+# =================================================
+# get calendar info
+# =================================================
 def get_calendar_info():
     """
     Shows basic usage of the Google Calendar API.
@@ -81,6 +102,7 @@ def get_calendar_info():
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
+    page_token = None
 
     if not events:
         print('No upcomming events found')
@@ -89,9 +111,22 @@ def get_calendar_info():
         print(time_check(start))
         print(start, event['summary'])
 
+# =================================================
+# calendar event get function
+# =================================================
+def get_eventList():
+    while True:
+    events = service.events().list(calendarId='primary', pageToken=page_token).execute()
+    for event in events['items']:
+    print(event['summary'])
+    page_token = events.get('nextPageToken')
+    if not page_token:
+    break
+
+
 def main():
-    get_calendar_info()
-#   print(time_check("2018-02-04"))
+     get_calendar_info()
+#    print(time_check("2018-02-04"))
 
 if __name__ == '__main__':
     main()
