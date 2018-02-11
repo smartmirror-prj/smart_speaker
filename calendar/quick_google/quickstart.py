@@ -112,7 +112,7 @@ def get_calendar_info():
 # =================================================
 # calendar event get function
 # =================================================
-def get_eventList():
+def get_eventTodayList():
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -121,10 +121,10 @@ def get_eventList():
 
     now = datetime.datetime.now()
     nowDate = now.strftime('%Y-%m-%d')
-    test = now.date()
-    print("now\t: ",now , "\ttype : ",type(now))          # 2015-04-19 12:11:32.669083
-    print("test \t: ",test , "\ttype : ",type(type(test)))
-    print("nowDate\t: ",nowDate ,"\ttype : ",type(nowDate))      # 2015-04-19
+#   lt = datetime.time(23,59,59)
+#   finishDate  = datetime.datetime.combine(nowDate,lt)
+    today = now.date()
+    print("today  \t\t : ",today , "\ttype : ",type(today))
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 
@@ -134,18 +134,20 @@ def get_eventList():
     # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
     # ================================================================
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+        calendarId='primary', timeMin=now, maxResults=5, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
+
+    print("t : ",True)
 
     if not events:
         print('No upcomming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        print(time_check(start))
-        print(start, event['summary'])
+        if start.dateTime() in today
+            print("today : ",today)
+            print(start, event['summary'])
 
-#
 #    if not events:
 #        print('No upcoming events found')
 #    for event in events:
@@ -154,16 +156,16 @@ def get_eventList():
 
 #   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
- #    event_list = json.dumps(events, inden =4) 
- #    f = open ("calendar_event.txt",'w')
- #    f.write(event_list)
- #    f.close()
+#    event_list = json.dumps(events, inden =4) 
+#    f = open ("calendar_event.txt",'w')
+#    f.write(event_list)
+#    f.close()
 #   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
 def main():
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
-    get_eventList()
+    get_eventTodayList()
 
 if __name__ == '__main__':
     main()
