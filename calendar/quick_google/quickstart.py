@@ -136,6 +136,7 @@ def get_eventTodayList():
     theday_list = datetime.date.today().strftime("%Y-%m-%d").split('-') # result type list
     theday = "-".join(theday_list)  # cobverting list -> string
     print("today : ",theday, "type:",type(theday))
+    event_maxtime = theday+"T23:59:59Z"
 
     # ================================================================
     # timeMin,timeMax format 
