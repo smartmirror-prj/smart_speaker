@@ -126,14 +126,16 @@ def get_eventTodayList():
 
     page_token = None
     event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
-    print("mintime :\t\t" ,event_mintime, "type : ",type(event_mintime))
 
     theday_list = datetime.date.today().strftime("%Y-%m-%d").split('-') # result type list
     theday = "-".join(theday_list)  # cobverting list -> string
-    print("today : ",theday, "type:",type(theday))
 
     event_mintime = theday+"T00:00:00Z"
     event_maxtime = theday+"T23:59:59Z"
+
+    if Dbug:
+        print("today : ",theday, "type:",type(theday))
+        print("mintime :\t\t" ,event_mintime, "type : ",type(event_mintime))
 
     # ================================================================
     # timeMin,timeMax format 
@@ -186,6 +188,8 @@ def standard_theday_event():
 
 
 def main():
+    global Dbug
+    Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
     get_eventTodayList()
