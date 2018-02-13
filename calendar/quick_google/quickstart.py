@@ -127,15 +127,15 @@ def get_eventTodayList():
     page_token = None
     event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
     print("mintime :\t\t" ,event_mintime, "type : ",type(event_mintime))
-    event_maxtime = "2018-02-14T23:59:00Z"
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print("datetime.utcnow() :\t",now, "type-now : ",type(now))
-#    event_maxtime = now.year
-#    print("maxtime :\t\t",event_maxtime, "type : ",type(event_maxtime))
+#   now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+#   print("datetime.utcnow() :\t",now, "type-now : ",type(now))
+
     theday_list = datetime.date.today().strftime("%Y-%m-%d").split('-') # result type list
     theday = "-".join(theday_list)  # cobverting list -> string
     print("today : ",theday, "type:",type(theday))
+
+    event_mintime = theday+"T00:00:00Z"
     event_maxtime = theday+"T23:59:59Z"
 
     # ================================================================
@@ -144,7 +144,7 @@ def get_eventTodayList():
     # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
     # ================================================================
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, timeMax=event_maxtime, 
+        calendarId='primary', timeMin=event_mintime, timeMax=event_maxtime, 
                               maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
