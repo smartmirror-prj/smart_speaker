@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+#-*- coding: utf-8 -*-
+
 # =================================================
 # import => module
 # =================================================
@@ -8,7 +10,11 @@ import httplib2
 import datetime
 import io
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
+import unicodedata
+    
 # =================================================
 # from & import => module
 # =================================================
@@ -31,7 +37,7 @@ except ImportError:
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
-CLIENT_SECRET_FILE = '/home/pi/project/smartmirror/calendar/quick_google/client_secret_633702561980-l5hu5n4tfo4hd64po79s803039pj1u6c.apps.googleusercontent.com'
+CLIENT_SECRET_FILE = '/home/pi/project/keyDir/calendar_key.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 # =================================================
@@ -121,10 +127,7 @@ def get_eventTodayList():
 
     now = datetime.datetime.now()
     nowDate = now.strftime('%Y-%m-%d')
-#   lt = datetime.time(23,59,59)
-#   finishDate  = datetime.datetime.combine(nowDate,lt)
     today = now.date()
-    print("today  \t\t : ",today , "\ttype : ",type(today))
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 
@@ -138,21 +141,18 @@ def get_eventTodayList():
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
-    print("t : ",True)
+    print("now : ",now)
+    print("today  \t\t : ",today , "\ttype : ",type(today))
 
     if not events:
-        print('No upcomming events found')
+		print('No upcoming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        if start.dateTime() in today
-            print("today : ",today)
+        if start in now:
             print(start, event['summary'])
-
-#    if not events:
-#        print('No upcoming events found')
-#    for event in events:
-#        start = event['start'].get('dateTime',event['start'].get('date'))
-#        print(start,event['summary'])
+    print("==============")
+    print("start : ",start, "type : ",type(start))
+    print("event:",event['summary'])
 
 #   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
@@ -160,7 +160,7 @@ def get_eventTodayList():
 #    f = open ("calendar_event.txt",'w')
 #    f.write(event_list)
 #    f.close()
-#   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
+#    print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
 def main():
 #   print(time_check("2018-02-04"))
@@ -169,4 +169,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
