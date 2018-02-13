@@ -119,7 +119,7 @@ def get_calendar_info():
 # =================================================
 # calendar standard time the day event  get
 # =================================================
-def get_eventTodaList():
+def get_eventTodayList():
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -162,12 +162,18 @@ def get_eventTodaList():
 # =================================================
 # check calendar event jsonformat and save file
 # =================================================
-def check_calendar_jsonformat()
-     event_list = json.dumps(events, inden =4) 
-     f = open ("calendar_event.txt",'w')
-     f.write(event_list)
-     f.close()
-     print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
+def check_calendar_jsonformat():
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    page_token = None
+
+    event_list = json.dumps(events, inden =4) 
+    f = open ("calendar_event.txt",'w')
+    f.write(event_list)
+    f.close()
+    print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
 # =================================================
 # calendar the day event get 
