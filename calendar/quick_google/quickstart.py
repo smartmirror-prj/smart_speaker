@@ -128,9 +128,6 @@ def get_eventTodayList():
     event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
     print("mintime :\t\t" ,event_mintime, "type : ",type(event_mintime))
 
-#   now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-#   print("datetime.utcnow() :\t",now, "type-now : ",type(now))
-
     theday_list = datetime.date.today().strftime("%Y-%m-%d").split('-') # result type list
     theday = "-".join(theday_list)  # cobverting list -> string
     print("today : ",theday, "type:",type(theday))
@@ -155,16 +152,6 @@ def get_eventTodayList():
         start = event['start'].get('dateTime',event['start'].get('date'))
         print(start, event['summary'])
 
-#   print("datetime.datetime.now() : ",now , "type-now : ",type(now))
-#   now = now.isoformat()
-#   nowDate = now.strftime('%Y-%m-%d')
-#   endtime = datetime.time(23,59,59)
-#   maxtime = nowDate + endtime
-
-#   print("==============")
-#   print("start : ",start, "type : ",type(start))
-
-#   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
 # =================================================
 # check calendar event jsonformat and save file
