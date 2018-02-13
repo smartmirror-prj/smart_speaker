@@ -8,6 +8,7 @@ from __future__ import print_function
 import os
 import httplib2
 import datetime
+import time
 import io
 import sys
 reload(sys)
@@ -116,20 +117,19 @@ def get_calendar_info():
         print(start, event['summary'])
 
 # =================================================
-# calendar event get function
+# calendar standard time the day event  get
 # =================================================
-def get_eventTodayList():
+def get_eventTodaList():
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
     page_token = None
-
-    now = datetime.datetime.now()
-    nowDate = now.strftime('%Y-%m-%d')
-    today = now.date()
+    event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
+    print("event_mintime : " ,event_mintime, "type : ",type(event_mintime))
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    print("datetime.utcnow() : ",now, "type-now : ",type(now))
 
     # ================================================================
     # timeMin,timeMax format 
@@ -137,30 +137,53 @@ def get_eventTodayList():
     # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
     # ================================================================
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=5, singleEvents=True,
+        calendarId='primary', timeMin=now, timeMax="2018-02-14T23:59:00Z", 
+                              maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
-    print("now : ",now)
-    print("today  \t\t : ",today , "\ttype : ",type(today))
-
     if not events:
-		print('No upcoming events found')
+ 	print('No upcoming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        if start in now:
-            print(start, event['summary'])
-    print("==============")
-    print("start : ",start, "type : ",type(start))
-    print("event:",event['summary'])
+        print(start, event['summary'])
+
+#   print("datetime.datetime.now() : ",now , "type-now : ",type(now))
+#   now = now.isoformat()
+#   nowDate = now.strftime('%Y-%m-%d')
+#   endtime = datetime.time(23,59,59)
+#   maxtime = nowDate + endtime
+
+#   print("==============")
+#   print("start : ",start, "type : ",type(start))
 
 #   print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
 
-#    event_list = json.dumps(events, inden =4) 
-#    f = open ("calendar_event.txt",'w')
-#    f.write(event_list)
-#    f.close()
-#    print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
+# =================================================
+# check calendar event jsonformat and save file
+# =================================================
+def check_calendar_jsonformat()
+     event_list = json.dumps(events, inden =4) 
+     f = open ("calendar_event.txt",'w')
+     f.write(event_list)
+     f.close()
+     print(json.dumps(eventsResult, indent=4), eventsResult['summary'])
+
+# =================================================
+# calendar the day event get 
+# =================================================
+def standard_theday_event():
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    page_token = None
+    event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
+    print("event_mintime : " ,event_mintime, "type : ",type(event_mintime))
+
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    print("datetime.utcnow() : ",now, "type-now : ",type(now))
+
 
 def main():
 #   print(time_check("2018-02-04"))
