@@ -13,6 +13,8 @@ import io
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+if not hasattr(sys, 'argv'):
+    sys.argv  = ['']
 
 import unicodedata
     
@@ -34,6 +36,8 @@ try:
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
+
+Dbug = True
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -113,13 +117,14 @@ def get_calendar_info():
         print('No upcomming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        print(time_check(start))
         print(start, event['summary'])
 
 # =================================================
 # calendar standard time the day event  get
 # =================================================
 def get_eventTodayList():
+
+
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -153,6 +158,7 @@ def get_eventTodayList():
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
         print(start, event['summary'])
+    return None
 
 
 # =================================================
@@ -188,7 +194,6 @@ def standard_theday_event():
 
 
 def main():
-    global Dbug
     Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
