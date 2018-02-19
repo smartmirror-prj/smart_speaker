@@ -122,8 +122,7 @@ def get_calendar_info():
 # =================================================
 # calendar standard time the day event  get
 # =================================================
-def get_eventTodayList():
-
+def get_eventTodayList_standnowtime():
 
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
@@ -136,7 +135,9 @@ def get_eventTodayList():
     theday = "-".join(theday_list)  # cobverting list -> string
 
     event_mintime = theday+"T00:00:00Z"
-    event_maxtime = theday+"T23:59:59Z"
+    print("time - min : ", event_mintime)
+#   event_maxtime = theday+"T23:59:59Z"
+#   print("time - max : ", event_maxtime)
 
     if Dbug:
         print("today : ",theday, "type:",type(theday))
@@ -148,8 +149,8 @@ def get_eventTodayList():
     # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
     # ================================================================
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=event_mintime, timeMax=event_maxtime, 
-                              maxResults=10, singleEvents=True,
+        calendarId='primary', timeMin=event_mintime,
+        maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
@@ -197,7 +198,7 @@ def main():
     Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
-    get_eventTodayList()
+    get_eventTodayList_standnowtime()
 
 if __name__ == '__main__':
     main()

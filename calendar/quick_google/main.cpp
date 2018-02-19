@@ -6,7 +6,7 @@ using namespace std;
 int main (int argc, char *const argv[])
 {
 	PyObject *pName, *pModule;	//for load python script
-	PyObject *pget_eventTodayList;	//for python functions
+	PyObject *get_eventTodayList_standnowtime;	//for python functions
 	PyObject *pArgs, *pValue, *g_pArgs, *g_pValue;	//for get/set python function parameters
 
 	Py_Initialize();
@@ -23,17 +23,16 @@ int main (int argc, char *const argv[])
 
 	if (pModule != NULL)
 	{
-		pget_eventTodayList = PyObject_GetAttrString(pModule, "get_eventTodayList");	
+        get_eventTodayList_standnowtime	= PyObject_GetAttrString(pModule, "get_eventTodayList_standnowtime");	
 	
-        if ( !(pget_eventTodayList && PyCallable_Check(pget_eventTodayList)) )
+        if ( !(get_eventTodayList_standnowtime && PyCallable_Check(get_eventTodayList_standnowtime)) )
         {
             if (PyErr_Occurred()) PyErr_Print();
             std::cout << "Cannot find function ''" << std::endl;
             return 1;
         }
-        //pHelloworld : function without input/output
-
-        PyObject_CallObject(pget_eventTodayList, NULL); //should be "get event list"
+        //pget_eventTodayList : function without input/output
+        PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list"
 	}
 	else
 	{
