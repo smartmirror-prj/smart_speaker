@@ -32,7 +32,7 @@ int main (int argc, char *const argv[])
             return 1;
         }
         //pget_eventTodayList : function without input/output
-        PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list"
+        PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list -the event alram on state"
 	}
 	else
 	{
