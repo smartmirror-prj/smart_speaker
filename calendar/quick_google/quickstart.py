@@ -37,7 +37,7 @@ try:
 except ImportError:
     flags = None
 
-Dbug = True
+Dbug = False
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -135,9 +135,7 @@ def get_eventTodayList_standnowtime():
     theday = "-".join(theday_list)  # cobverting list -> string
 
     event_mintime = theday+"T00:00:00Z"
-    print("time - min : ", event_mintime)
     event_maxtime = theday+"T23:59:59Z"
-    print("time - max : ", event_maxtime)
 
     if Dbug:
         print("today : ",theday, "type:",type(theday))
@@ -159,7 +157,58 @@ def get_eventTodayList_standnowtime():
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
         print(start, event['summary'])
+
     return None
+
+
+
+# =================================================
+# test functin   
+# =================================================
+def get_list():
+
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    page_token = None
+    event_mintime = datetime.datetime.today().isoformat() + 'Z' # 'Z' indicates UTC time
+
+    theday_list = datetime.date.today().strftime("%Y-%m-%d").split('-') # result type list
+    theday = "-".join(theday_list)  # cobverting list -> string
+
+    event_mintime = theday+"T00:00:00Z"
+#   print("time - min : ", event_mintime)
+    event_maxtime = theday+"T23:59:59Z"
+#   print("time - max : ", event_maxtime)
+
+    if Dbug:
+        print("today : ",theday, "type:",type(theday))
+        print("mintime :\t\t" ,event_mintime, "type : ",type(event_mintime))
+
+    # ================================================================
+    # timeMin,timeMax format 
+    # RFC3339 : ex)2018-02-09T07:02:06.440759Z
+    # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
+    # ================================================================
+    eventsResult = service.events().list(
+        calendarId='primary', timeMin=event_mintime, timeMax=event_maxtime,
+        maxResults=10, singleEvents=True,
+        orderBy='startTime').execute()
+    events = eventsResult.get('items', [])
+
+    if not events:
+        print('No upcoming events found')
+    for event in events:
+        start = event['start'].get('dateTime',event['start'].get('date'))
+        buf = start + " " + event['summary']
+
+    print(buf+1 )
+    print("start : ",type(start))
+    print("start : ",start)
+    print("event['summary'] : ",type(event['summary']))
+    print("event['summary'] : ",event['summary'])
+    return start
 
 
 # =================================================
@@ -195,10 +244,11 @@ def standard_theday_event():
 
 
 def main():
-    Dbug = 0
+#   Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
-    get_eventTodayList_standnowtime()
+#   get_eventTodayList_standnowtime()
+    get_list()
 
 if __name__ == '__main__':
     main()

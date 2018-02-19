@@ -225,3 +225,4 @@ tags
 
 # google client key
 client_secret_*
+*.json
