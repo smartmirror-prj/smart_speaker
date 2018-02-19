@@ -136,8 +136,8 @@ def get_eventTodayList_standnowtime():
 
     event_mintime = theday+"T00:00:00Z"
     print("time - min : ", event_mintime)
-#   event_maxtime = theday+"T23:59:59Z"
-#   print("time - max : ", event_maxtime)
+    event_maxtime = theday+"T23:59:59Z"
+    print("time - max : ", event_maxtime)
 
     if Dbug:
         print("today : ",theday, "type:",type(theday))
@@ -149,7 +149,7 @@ def get_eventTodayList_standnowtime():
     # timeMin parameter defolt format  ex)2018-02-10T00:00:00Z(yyyy-mm-ddThh:mm:ssZ || 2018-02-09 16:24:39.060761)
     # ================================================================
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=event_mintime,
+        calendarId='primary', timeMin=event_mintime, timeMax=event_maxtime,
         maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])

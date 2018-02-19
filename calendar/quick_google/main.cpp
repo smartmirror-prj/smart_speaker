@@ -6,7 +6,7 @@ using namespace std;
 int main (int argc, char *const argv[])
 {
 	PyObject *pName, *pModule;	//for load python script
-	PyObject *get_eventTodayList_standnowtime;	//for python functions
+	PyObject *get_eventTodayList_standnowtime;	//for python functions 현재시간기준 calendar event
 	PyObject *pArgs, *pValue, *g_pArgs, *g_pValue;	//for get/set python function parameters
 
 	Py_Initialize();
