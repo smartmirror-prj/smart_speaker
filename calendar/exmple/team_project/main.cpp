@@ -32,7 +32,7 @@ int main (int argc, char *const argv[])
 	{
 		//module load
 		pHelloworld = PyObject_GetAttrString(pModule, "helloworld");
-		pInitial = PyObject_GetAttrString(pModule, "initialize");
+		pInitial    = PyObject_GetAttrString(pModule, "initialize");
 		pgoogle_stt = PyObject_GetAttrString(pModule, "google_stt");	
 		//module load error check
 		if ( !(pHelloworld && PyCallable_Check(pHelloworld)) )
