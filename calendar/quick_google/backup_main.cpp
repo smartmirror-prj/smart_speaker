@@ -31,10 +31,8 @@ int main (int argc, char *const argv[])
             std::cout << "Cannot find function ''" << std::endl;
             return 1;
         }
-        
         //pget_eventTodayList : function without input/output
-//      PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list -the event alram on state"
-        PyObject_CallObject(get_eventTodayList_standnowtime, pArgs); //should be "get event list -the event alram on state"
+        PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list -the event alram on state"
 	}
 	else
 	{
