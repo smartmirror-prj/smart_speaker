@@ -1,13 +1,17 @@
 #include <iostream>
+//#include <vector>
 #include <Python.h>
 
 using namespace std;
 
+
 int main (int argc, char *const argv[])
 {
-	PyObject *pName, *pModule;	//for load python script
-	PyObject *get_eventTodayList_standnowtime;	//for python functions 현재시간기준 calendar event
 	PyObject *pArgs, *pValue, *g_pArgs, *g_pValue;	//for get/set python function parameters
+	PyObject *pget_list;
+    PyObject *pModule, *pName, *pDict, *pFun;
+
+    string eventString;
 
 	Py_Initialize();
 
@@ -19,22 +23,57 @@ int main (int argc, char *const argv[])
 	//get python script
   	pName = PyString_FromString("quickstart");
 	pModule = PyImport_Import(pName);
+    pDict = PyModule_GetDict(pModule);
+
 	Py_DECREF(pName);
 
 	if (pModule != NULL)
 	{
-        get_eventTodayList_standnowtime	= PyObject_GetAttrString(pModule, "get_eventTodayList_standnowtime");	
-	
-        if ( !(get_eventTodayList_standnowtime && PyCallable_Check(get_eventTodayList_standnowtime)) )
+        pget_list	= PyObject_GetAttrString(pModule, "get_list");	
+        pFun = PyDict_GetItemString(pDict, "get_list");
+        if (PyCallable_Check(pFun)) 
+        {
+            PyObject_CallObject(pFun, NULL);
+            printf("line 37 \n");
+            if(pFun == NULL){
+                printf("pFun == NULL");
+                exit(0);
+            }
+            if(pget_list == NULL)
+                printf("pget_list NULL\n");
+            else 
+                printf("Not null\n");
+        }
+        else 
+        {
+            PyErr_Print();
+        }
+
+
+        if (!(pget_list && PyCallable_Check(pget_list)) )
         {
             if (PyErr_Occurred()) PyErr_Print();
             std::cout << "Cannot find function ''" << std::endl;
             return 1;
         }
+
+        g_pArgs = PyTuple_New(100);
+        if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
+
+        g_pArgs = PyObject_CallObject(pget_list, NULL);
+        if(!g_pArgs)    printf("g_pArgs == NULL\n");
+
+        printf("=======================\n %s\n",PyString_AsString(g_pArgs));
         
-        //pget_eventTodayList : function without input/output
-//      PyObject_CallObject(get_eventTodayList_standnowtime, NULL); //should be "get event list -the event alram on state"
-        PyObject_CallObject(get_eventTodayList_standnowtime, pArgs); //should be "get event list -the event alram on state"
+        // ========================== get str event ==========================
+        
+        printf("line 76\n");
+
+//      eventString = PyString_AsString(g_pArgs);
+//      pValue = PyObject_CallObject(pget_list, pArgs);
+//      if(pValue != NULL)
+//      {
+//      }
 	}
 	else
 	{
@@ -43,6 +82,16 @@ int main (int argc, char *const argv[])
 		return 1;
 	}
 	
+    Py_DECREF(pModule);
+    Py_DECREF(pName);
+
+    Py_DECREF(pDict);
+    Py_DECREF(pFun);
+
 	Py_Finalize();
+
 	return 0;
 }
+
+
+

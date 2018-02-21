@@ -201,13 +201,15 @@ def get_list():
         print('No upcoming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        buf = start + " " + event['summary']
 
-    print(buf+1 )
-    print("start : ",type(start))
-    print("start : ",start)
-    print("event['summary'] : ",type(event['summary']))
-    print("event['summary'] : ",event['summary'])
+    print("py start : ",start)
+    print("py event['summary'] : ",event['summary'])
+    print("py event['summary'] : ",type(event['summary']))
+    print("py type start : ",type(isinstance(start,(str, basestring))),"event['summary'] : ",type(event['summary']))
+    
+    print("t : ", unicodedata.normalize('NFKD', start).encode('ascii','ignore'))
+    print("py start ty : ",type(start))
+    
     return start
 
 
