@@ -160,6 +160,8 @@ def get_eventTodayList_standnowtime():
 
     return None
 
+
+
 # =================================================
 # test functin   
 # =================================================
@@ -194,35 +196,20 @@ def get_list():
         maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
-    
-    print("======================================================")
-    print("                     python start                     ")
-    print("======================================================")
-
-    time_event = None
 
     if not events:
         print('No upcoming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
-        buf = start+" "+event['summary']+"/"
-        if time_event is None:
-            time_event = buf
-        else:
-            time_event += buf
-        print("start,event\t: ", start, event['summary'])
-        print("buf \t\t: ",buf)
+        buf = start + " " + event['summary']
 
-    print("======================================================")
-    print("                     py event list finish")
-    print("======================================================")
-    print("time_event : ",time_event)
-    print("py start            : ",start)
-    print("py event['summary'] : ",event['summary'])
-    print("py event['summary'] : ",type(event['summary']))
-    print("py type start : ",type(isinstance(start,(str, basestring))),"event['summary'] : ",type(event['summary']))
-    
-    return time_event
+    print(buf+1 )
+    print("start : ",type(start))
+    print("start : ",start)
+    print("event['summary'] : ",type(event['summary']))
+    print("event['summary'] : ",event['summary'])
+    return start
+
 
 # =================================================
 # check calendar event jsonformat and save file
@@ -257,12 +244,11 @@ def standard_theday_event():
 
 
 def main():
-    Dbug = 0
+#   Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
 #   get_eventTodayList_standnowtime()
-    if Dbug is 1:
-        get_list()
+    get_list()
 
 if __name__ == '__main__':
     main()
