@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <vector>
 #include <Python.h>
 
 using namespace std;
@@ -10,8 +9,10 @@ int main (int argc, char *const argv[])
 	PyObject *pArgs, *g_pArgs;	//for get/set python function parameters
 	PyObject *pget_list;
     PyObject *pModule, *pName;
-
     string eventString;
+
+    char* test;
+
 
     Py_Initialize();
 
@@ -47,7 +48,11 @@ int main (int argc, char *const argv[])
             printf("No upcoming events found\n");
         else 
         // One or more events
-            printf("%s\n",PyString_AsString(g_pArgs));
+           // printf("%s\n",PyString_AsString(g_pArgs));
+            test = PyString_AsString(g_pArgs);
+        if(!test)
+            exit(0);
+        printf("string test :\n %s\n",test);
         puts("============================================================");
         puts("\t\t\t\t cpp finish");
         puts("============================================================");
