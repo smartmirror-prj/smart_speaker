@@ -210,7 +210,8 @@ def get_list():
         buf = start+" "+event['summary']+"/"
         if time_event is None:
             time_event = buf
-        time_event += buf
+        else:
+            time_event += buf
         print("start,event\t: ", start, event['summary'])
         print("buf \t\t: ",buf)
 
