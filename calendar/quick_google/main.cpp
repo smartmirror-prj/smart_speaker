@@ -7,7 +7,7 @@ using namespace std;
 
 int main (int argc, char *const argv[])
 {
-	PyObject *pArgs, *pValue, *g_pArgs, *g_pValue;	//for get/set python function parameters
+	PyObject *pArgs, *g_pArgs;	//for get/set python function parameters
 	PyObject *pget_list;
     PyObject *pModule, *pName, *pDict, *pFun;
 
@@ -63,17 +63,17 @@ int main (int argc, char *const argv[])
         g_pArgs = PyObject_CallObject(pget_list, NULL);
         if(!g_pArgs)    printf("g_pArgs == NULL\n");
 
-        printf("=======================\n %s\n",PyString_AsString(g_pArgs));
-        
-        // ========================== get str event ==========================
-        
-        printf("line 76\n");
-
-//      eventString = PyString_AsString(g_pArgs);
-//      pValue = PyObject_CallObject(pget_list, pArgs);
-//      if(pValue != NULL)
-//      {
-//      }
+        puts("============================================================");
+        puts("\t\t\t\t cpp start");
+        puts("============================================================");
+        // python module implementaion
+        if(!PyString_AsString(g_pArgs))
+            printf("No upcoming events found\n");
+        else 
+            printf("%s\n",PyString_AsString(g_pArgs));
+        puts("============================================================");
+        puts("\t\t\t\t cpp finish");
+        puts("============================================================");
 	}
 	else
 	{
@@ -82,13 +82,22 @@ int main (int argc, char *const argv[])
 		return 1;
 	}
 	
+    Py_DECREF(pget_list);
+    printf("decref 0 \n");
     Py_DECREF(pModule);
+    printf("decref 1 \n");
     Py_DECREF(pName);
-
+    printf("decref 2 \n");
     Py_DECREF(pDict);
+    printf("decref 3 \n");
     Py_DECREF(pFun);
+    printf("decref 4 \n");
+    Py_DECREF(g_pArgs);
+    printf("decref 5 \n");
 
-	Py_Finalize();
+    Py_Finalize();
+
+    printf("cpp End\n");
 
 	return 0;
 }

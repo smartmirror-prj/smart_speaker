@@ -196,22 +196,34 @@ def get_list():
         maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
+    
+    print("======================================================")
+    print("                     python start                     ")
+    print("======================================================")
+
+    time_event = None
 
     if not events:
         print('No upcoming events found')
     for event in events:
         start = event['start'].get('dateTime',event['start'].get('date'))
+        buf = start+" "+event['summary']+"/"
+        if time_event is None:
+            time_event = buf
+        time_event += buf
+        print("start,event\t: ", start, event['summary'])
+        print("buf \t\t: ",buf)
 
-    print("py start : ",start)
+    print("======================================================")
+    print("                     py event list finish")
+    print("======================================================")
+    print("time_event : ",time_event)
+    print("py start            : ",start)
     print("py event['summary'] : ",event['summary'])
     print("py event['summary'] : ",type(event['summary']))
     print("py type start : ",type(isinstance(start,(str, basestring))),"event['summary'] : ",type(event['summary']))
     
-    print("t : ", unicodedata.normalize('NFKD', start).encode('ascii','ignore'))
-    print("py start ty : ",type(start))
-    
-    return start
-
+    return time_event
 
 # =================================================
 # check calendar event jsonformat and save file
