@@ -160,8 +160,6 @@ def get_eventTodayList_standnowtime():
 
     return None
 
-
-
 # =================================================
 # test functin   
 # =================================================
@@ -259,11 +257,12 @@ def standard_theday_event():
 
 
 def main():
-#   Dbug = 0
+    Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
 #   get_eventTodayList_standnowtime()
-    get_list()
+    if Dbug is 1:
+        get_list()
 
 if __name__ == '__main__':
     main()

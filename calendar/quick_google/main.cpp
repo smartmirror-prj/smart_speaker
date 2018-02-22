@@ -9,46 +9,24 @@ int main (int argc, char *const argv[])
 {
 	PyObject *pArgs, *g_pArgs;	//for get/set python function parameters
 	PyObject *pget_list;
-    PyObject *pModule, *pName, *pDict, *pFun;
+    PyObject *pModule, *pName;
 
     string eventString;
 
-	Py_Initialize();
+    Py_Initialize();
 
-	//start set path
+	/* start set path */
 	PyObject *sys = PyImport_ImportModule("sys");
 	PyObject *path = PyObject_GetAttrString(sys, "path");
 	PyList_Append(path, PyString_FromString("."));
 
-	//get python script
+	/* get python script */
   	pName = PyString_FromString("quickstart");
 	pModule = PyImport_Import(pName);
-    pDict = PyModule_GetDict(pModule);
-
-	Py_DECREF(pName);
 
 	if (pModule != NULL)
 	{
         pget_list	= PyObject_GetAttrString(pModule, "get_list");	
-        pFun = PyDict_GetItemString(pDict, "get_list");
-        if (PyCallable_Check(pFun)) 
-        {
-            PyObject_CallObject(pFun, NULL);
-            printf("line 37 \n");
-            if(pFun == NULL){
-                printf("pFun == NULL");
-                exit(0);
-            }
-            if(pget_list == NULL)
-                printf("pget_list NULL\n");
-            else 
-                printf("Not null\n");
-        }
-        else 
-        {
-            PyErr_Print();
-        }
-
 
         if (!(pget_list && PyCallable_Check(pget_list)) )
         {
@@ -57,16 +35,13 @@ int main (int argc, char *const argv[])
             return 1;
         }
 
-        g_pArgs = PyTuple_New(100);
-        if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
+        g_pArgs = PyTuple_New(100); if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
+        g_pArgs = PyObject_CallObject(pget_list, NULL); if(!g_pArgs)    printf("g_pArgs == NULL\n");
 
-        g_pArgs = PyObject_CallObject(pget_list, NULL);
-        if(!g_pArgs)    printf("g_pArgs == NULL\n");
-
+        /* python module implementaion */
         puts("============================================================");
         puts("\t\t\t\t cpp start");
         puts("============================================================");
-        /* python module implementaion */
         if(!PyString_AsString(g_pArgs))
         // No event
             printf("No upcoming events found\n");
@@ -90,12 +65,10 @@ int main (int argc, char *const argv[])
     printf("decref 1 \n");
     Py_DECREF(pName);
     printf("decref 2 \n");
-    Py_DECREF(pDict);
-    printf("decref 3 \n");
-    Py_DECREF(pFun);
-    printf("decref 4 \n");
     Py_DECREF(g_pArgs);
-    printf("decref 5 \n");
+    printf("decref 3 \n");
+	Py_DECREF(pName);
+    printf("decref 4 \n");
 
     Py_Finalize();
 
