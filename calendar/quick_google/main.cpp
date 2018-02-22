@@ -66,10 +66,12 @@ int main (int argc, char *const argv[])
         puts("============================================================");
         puts("\t\t\t\t cpp start");
         puts("============================================================");
-        // python module implementaion
+        /* python module implementaion */
         if(!PyString_AsString(g_pArgs))
+        // No event
             printf("No upcoming events found\n");
         else 
+        // One or more events
             printf("%s\n",PyString_AsString(g_pArgs));
         puts("============================================================");
         puts("\t\t\t\t cpp finish");
