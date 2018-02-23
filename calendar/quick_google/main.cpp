@@ -72,8 +72,6 @@ int main (int argc, char *const argv[])
     printf("decref 2 \n");
     Py_DECREF(g_pArgs);
     printf("decref 3 \n");
-	Py_DECREF(pName);
-    printf("decref 4 \n");
 
     Py_Finalize();
 
