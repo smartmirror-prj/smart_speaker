@@ -227,3 +227,5 @@ tags
 client_secret_*
 *.json
 example
+*.swp
+*.swo
