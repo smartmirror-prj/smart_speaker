@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void event_tts(char* event_list);
+int event_tts(char* event_list);
 
 
 int main (int argc, char *const argv[])
@@ -16,7 +16,7 @@ int main (int argc, char *const argv[])
 	PyObject *pget_list;
     PyObject *pModule, *pName;
     string eventString;
-    int pyRun = SET;
+    int pyRun = SET, result= 0;
 
     char* event_list = NULL;
 
@@ -49,13 +49,10 @@ int main (int argc, char *const argv[])
         puts("============================================================");
         puts("\t\t\tmain.cpp start                                          ");
         puts("============================================================");
-        if(!PyString_AsString(g_pArgs))
-        // No event
+        if(!PyString_AsString(g_pArgs)) // No event
             printf("No upcoming events found\n");
-        else 
-        // One or more events
+        else // One or more events
            // printf("%s\n",PyString_AsString(g_pArgs));
-            //  return event - python -> c++
             event_list = PyString_AsString(g_pArgs);
         if(!event_list)
         {
@@ -64,7 +61,6 @@ int main (int argc, char *const argv[])
         }
         else{
             printf("python -> cpp : %s\n",event_list);
-            puts("");
         } 
 	}
 	else
@@ -91,7 +87,8 @@ int main (int argc, char *const argv[])
             printf("case UNSET : %d\n",pyRun);
             break;
         case SET:
-            event_tts(event_list);
+            result = event_tts(event_list);
+            printf("function event_tts resut : %d \n",result);
             break;
         default:
             printf("case default : %d\n",pyRun);
@@ -103,19 +100,47 @@ int main (int argc, char *const argv[])
 }
 
 
-void event_tts(char* event_list)
+int event_tts(char* event_list)
 {
-    /* get python script */
+    PyObject *pModule, *pName;
+    PyObject *pttsNaver, *test, * pClass, *pInstance;
+
     printf("event_tts in : %s\n",event_list);
 
-//    pModule = PyImport_ImportModule("Pymodule");
-//    assert(pModule != NULL);
-//    klass = PyObject_GetAttrString(module, "math");
-//    instance = PyInstance_New(aaa,NULL,NULL);
+    Py_Initialize();
+
+	/* start set path */
+  	PyObject *sys = PyImport_ImportModule("sys");
+  	PyObject *path = PyObject_GetAttrString(sys, "path");
+  	PyList_Append(path, PyString_FromString("."));
+
+	/* get python script */
+  	pName = PyString_FromString("naverTTS");
+	pModule = PyImport_Import(pName);
+    pClass = PyObject_GetAttrString(pmodule, "NaverTTS");
+    assert(pClass != NULL);
+    pInstance = PyInstance_New(pClass,NULL,NULL);
+
+	if (pModule != NULL)
+	{
+        test = PyObject_GetAttrString(pModule, "test");	
+
+//        if (!(pget_list && PyCallable_Check(pget_list)) )
+//        {
+//            if (PyErr_Occurred()) PyErr_Print();
+//            std::cout << "Cannot find function ''" << std::endl;
+//            return -1;
+//        }
+    } else {
+        assert(pModule == NULL);
+    }
+
 //    result = PyObject_CallMethod(instance,"","()",  );
 //    printf("result : %lf\n",PyInt_AsLong(result);
 
-    return ;
+    Py_Finalize();
+
+    return 1;
 }
 
 
