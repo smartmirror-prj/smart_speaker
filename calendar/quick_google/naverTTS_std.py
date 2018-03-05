@@ -26,9 +26,9 @@ speakers = [
 
 tmpPlayPath = './tmp.mp3'
 
-class NaverTTS():
+class TTS():
     def test(str):
-        print("test naver.TTS");
+        print("test naver.TTS")
 
     def __init__(self, speaker=0, speed=0):
         self.speaker = speakers[speaker]
@@ -56,7 +56,7 @@ class NaverTTS():
 
 
 def main():
-    tts = NaverTTS()
+    tts = TTS()
     tts.play("안녕하십니까?")
 
 if __name__ == '__main__':
