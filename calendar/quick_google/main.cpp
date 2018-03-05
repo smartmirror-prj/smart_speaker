@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
-#include <Python.h>
+//#include <Python.h>
+#include <python2.7/Python.h>
+#include <assert.h>
 
 #define UNSET   0
 #define SET     1
@@ -51,17 +53,16 @@ int main (int argc, char *const argv[])
         puts("============================================================");
         if(!PyString_AsString(g_pArgs)) // No event
             printf("No upcoming events found\n");
-        else // One or more events
-           // printf("%s\n",PyString_AsString(g_pArgs));
+        else {// One or more events
+            printf("%s\n",PyString_AsString(g_pArgs));
             event_list = PyString_AsString(g_pArgs);
+        }
         if(!event_list)
         {
             cout <<"event_list NULL " << event_list <<endl;
             return(-1);
         }
-        else{
-            printf("python -> cpp : %s\n",event_list);
-        } 
+        else printf("python -> cpp : %s\n",event_list);
 	}
 	else
 	{
@@ -94,8 +95,6 @@ int main (int argc, char *const argv[])
             printf("case default : %d\n",pyRun);
             break;
     }
-
-
 	return 0;
 }
 
@@ -103,7 +102,7 @@ int main (int argc, char *const argv[])
 int event_tts(char* event_list)
 {
     PyObject *pModule, *pName;
-    PyObject *pttsNaver, *test, * pClass, *pInstance;
+    PyObject *pttsNaver, *test, *pInstance;
 
     printf("event_tts in : %s\n",event_list);
 
@@ -114,29 +113,13 @@ int event_tts(char* event_list)
   	PyObject *path = PyObject_GetAttrString(sys, "path");
   	PyList_Append(path, PyString_FromString("."));
 
-	/* get python script */
-  	pName = PyString_FromString("naverTTS");
+  	pName = PyString_FromString("tts_naver");
 	pModule = PyImport_Import(pName);
-    pClass = PyObject_GetAttrString(pmodule, "NaverTTS");
-    assert(pClass != NULL);
-    pInstance = PyInstance_New(pClass,NULL,NULL);
-
 	if (pModule != NULL)
-	{
-        test = PyObject_GetAttrString(pModule, "test");	
-
-//        if (!(pget_list && PyCallable_Check(pget_list)) )
-//        {
-//            if (PyErr_Occurred()) PyErr_Print();
-//            std::cout << "Cannot find function ''" << std::endl;
-//            return -1;
-//        }
-    } else {
-        assert(pModule == NULL);
+    {
+        puts("----");
     }
 
-//    result = PyObject_CallMethod(instance,"","()",  );
-//    printf("result : %lf\n",PyInt_AsLong(result);
 
     Py_Finalize();
 
@@ -144,3 +127,10 @@ int event_tts(char* event_list)
 }
 
 
+/*
+	 //get python script
+//	pModule = PyImport_Import(pName);
+//    pClass = PyObject_GetAttrString(pModule, "NaverTTS");
+//    pInstance = PyInstance_New(pClass,NULL,NULL);
+    printf("result : %lf\n",PyInt_AsLong(result));
+ */
