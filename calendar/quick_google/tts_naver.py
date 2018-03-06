@@ -24,5 +24,5 @@ client_secret = "25Keve2oyj"
 url = "https://openapi.naver.com/v1/voice/tts.bin"
 
 class tts_class():
-    def print_string(input_string):
-        print("input string : ",input_string)
+    def print_string(self, input_string):
+        print("c++ -> python : ",input_string)
