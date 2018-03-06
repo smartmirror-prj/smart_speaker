@@ -100,6 +100,8 @@ int event_tts(char* event_list)
     PyObject *pModule, *pName;
     PyObject *pttsNaver, *test, *pClass, *pInstance, *result;
     PyObject *set_string;
+    char type[]="s";
+    char pyFunc[]="print_string";
 
     printf("event_tts function : %s\n",event_list);
 
@@ -119,21 +121,9 @@ int event_tts(char* event_list)
     pInstance = PyInstance_New(pClass,NULL,NULL);
     assert(pInstance != NULL);
 
-    set_string = Py_BuildValue("s",event_list);
-    assert(set_string != NULL);
-
-    result = PyObject_CallMethod(pInstance,"print_string","(s)","testttt");
-    //assert(result != NULL);
-
-    printf("result : %s\n",result);
-
+    result = PyObject_CallMethod(pInstance, pyFunc, type, event_list);
+    assert(result != NULL);
     Py_Finalize();
 
     return 1;
 }
-
-
-/*
-//    pInstance = PyInstance_New(pClass,NULL,NULL);
-    printf("result : %lf\n",PyInt_AsLong(result));
- */
