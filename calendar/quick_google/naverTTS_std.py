@@ -27,9 +27,6 @@ speakers = [
 tmpPlayPath = './tmp.mp3'
 
 class TTS():
-    def test(str):
-        print("test naver.TTS")
-
     def __init__(self, speaker=0, speed=0):
         self.speaker = speakers[speaker]
         self.speed=str(speed)
