@@ -102,7 +102,6 @@ int event_tts(char* event_list)
     PyObject *set_string;
     char type[]="s";
     char pyFunc[]="print_string";
-    
 
     printf("event_tts function : %s\n",event_list);
 
@@ -122,16 +121,9 @@ int event_tts(char* event_list)
     pInstance = PyInstance_New(pClass,NULL,NULL);
     assert(pInstance != NULL);
 
-
     result = PyObject_CallMethod(pInstance, pyFunc, type, event_list);
     assert(result != NULL);
     Py_Finalize();
 
     return 1;
 }
-
-
-/*
-//    pInstance = PyInstance_New(pClass,NULL,NULL);
-    printf("result : %lf\n",PyInt_AsLong(result));
- */
