@@ -13,8 +13,9 @@ import sys
 import unicodedata
 import json
 
-import urllib2 #python ver 2
-#import urllib.request # python ver 3
+import urllib
+#import urllib.request
+#from six.moves import urllib
 
 client_id = "Qmk9XrEhvf_CTzbpuUq4"
 client_secret = "25Keve2oyj"
@@ -23,10 +24,16 @@ url = "https://openapi.naver.com/v1/voice/tts.bin"
 ko_speakers={'mijin', 'jinho'}
 en_speakers={'clara', 'matt'}
 
-class tts_class():
+tmpPlayPath = './tmp.mp3'
 
-#    def print_string(self, input_string):
-#        print("c++ -> python : ",input_string)
-    def print_string(self, input_string):
-        print("c++ -> python : ",input_string)
-    
+class tts_class():
+#   def __init__(self, speaker=0, speed=0):
+#       self.speaker = speakers[speaker]
+#       self.speed=str(speed)
+
+    def calendar_tts(self, txt):
+        print("==================== python TTS ==================== ")
+        encText = urllib.pathname2url(url)
+
+        print("encText : ", encText)
+        print("calendar_tts c++ -> python     : ",txt)
