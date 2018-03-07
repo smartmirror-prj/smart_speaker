@@ -102,7 +102,6 @@ int event_tts(char* event_list)
     PyObject *set_string;
 
     char type[]="s";
-    char pyFunc_test[]= "print_string";
     char pyFunc_tts[] = "calendar_tts";
 
     printf("event_tts function : %s\n",event_list);
@@ -123,7 +122,7 @@ int event_tts(char* event_list)
     pInstance = PyInstance_New(pClass,NULL,NULL);
     assert(pInstance != NULL);
 
-    pTTS    = PyObject_CallMethod(pInstance, pyFunc_tts, type, event_list);
+    pTTS = PyObject_CallMethod(pInstance, pyFunc_tts, type, event_list);
     assert(pTTS != NULL);
 
     Py_DECREF(pName);

@@ -14,6 +14,8 @@ import unicodedata
 import json
 
 import urllib
+#import urllib.request
+#from six.moves import urllib
 
 client_id = "Qmk9XrEhvf_CTzbpuUq4"
 client_secret = "25Keve2oyj"
@@ -25,10 +27,13 @@ en_speakers={'clara', 'matt'}
 tmpPlayPath = './tmp.mp3'
 
 class tts_class():
+#   def __init__(self, speaker=0, speed=0):
+#       self.speaker = speakers[speaker]
+#       self.speed=str(speed)
 
     def calendar_tts(self, txt):
         print("==================== python TTS ==================== ")
-        print("calendar_tts c++ -> python     : ",txt)
         encText = urllib.pathname2url(url)
+
         print("encText : ", encText)
-    
+        print("calendar_tts c++ -> python     : ",txt)
