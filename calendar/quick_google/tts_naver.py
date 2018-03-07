@@ -13,8 +13,7 @@ import sys
 import unicodedata
 import json
 
-import urllib2 #python ver 2
-#import urllib.request # python ver 3
+import urllib
 
 client_id = "Qmk9XrEhvf_CTzbpuUq4"
 client_secret = "25Keve2oyj"
@@ -23,10 +22,13 @@ url = "https://openapi.naver.com/v1/voice/tts.bin"
 ko_speakers={'mijin', 'jinho'}
 en_speakers={'clara', 'matt'}
 
+tmpPlayPath = './tmp.mp3'
+
 class tts_class():
 
-#    def print_string(self, input_string):
-#        print("c++ -> python : ",input_string)
-    def print_string(self, input_string):
-        print("c++ -> python : ",input_string)
+    def calendar_tts(self, txt):
+        print("==================== python TTS ==================== ")
+        print("calendar_tts c++ -> python     : ",txt)
+        encText = urllib.pathname2url(url)
+        print("encText : ", encText)
     
