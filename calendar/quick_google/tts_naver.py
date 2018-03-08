@@ -17,8 +17,9 @@ import urllib
 import urllib2
 #import urllib.request
 
-#from urllib.request import urlopen
-#from six.moves import urllib
+# ==============================================
+# Dbug print set 
+# ==============================================
 
 DBUG = 0
 
@@ -56,3 +57,12 @@ class tts_class():
             print("data : ", data)
             print("rescode : ",rescode)
             print("calendar_tts c++ -> python     : ",txt)
+            print("response : ",response)
+        if(rescode == 200):
+            response_body = response.read()
+            with open(tmpPlayPath,'wb') as f:
+                f.write(response_body)
+#           os.system('cvlc ' + tmpPlayPath + ' --play-and-exit')
+            os.system('omxplayer ' + tmpPlayPath)
+        else :
+            print("Error Code : " , rescode)
