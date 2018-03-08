@@ -20,6 +20,8 @@ import urllib2
 #from urllib.request import urlopen
 #from six.moves import urllib
 
+DBUG = 0
+
 client_id = "Qmk9XrEhvf_CTzbpuUq4"
 client_secret = "25Keve2oyj"
 
@@ -41,17 +43,16 @@ class tts_class():
     def calendar_tts(self, txt):
         print("==================== python TTS ==================== ")
         encText = urllib.pathname2url(txt)
-        print("encText : ", encText)
 
         data = "speaker=" + self.speaker + "&speed=" + self.speed + "&text=" + encText;
-        print("data : ", data)
 
         request = urllib2.Request(url)
         request.add_header("X-Naver-Client-Id",client_id)
         request.add_header("X-Naver-Client-Secret",client_secret)
         response = urllib2.urlopen(request, data=data.encode('utf-8'))
         rescode = response.getcode()
-        print("rescode : ",rescode)
-
-
-        print("calendar_tts c++ -> python     : ",txt)
+        if DBUG:
+            print("encText : ", encText)
+            print("data : ", data)
+            print("rescode : ",rescode)
+            print("calendar_tts c++ -> python     : ",txt)
