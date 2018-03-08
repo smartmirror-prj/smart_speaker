@@ -98,7 +98,7 @@ int main (int argc, char *const argv[])
 int event_tts(char* event_list)
 {
     PyObject *pModule, *pName;
-    PyObject *pttsNaver, *test, *pClass, *pInstance, *pTTS;
+    PyObject *pttsNaver, *test, *pClass, *pInstance, *pCalendar_tts;
     PyObject *set_string;
 
     char type[]="s";
@@ -122,13 +122,13 @@ int event_tts(char* event_list)
     pInstance = PyInstance_New(pClass,NULL,NULL);
     assert(pInstance != NULL);
 
-    pTTS = PyObject_CallMethod(pInstance, pyFunc_tts, type, event_list);
-    assert(pTTS != NULL);
+    pCalendar_tts = PyObject_CallMethod(pInstance, pyFunc_tts, type, event_list);
+    assert(pCalendar_tts != NULL);
 
     Py_DECREF(pName);
     Py_DECREF(pClass);
     Py_DECREF(pInstance);
-    Py_DECREF(pTTS);
+    Py_DECREF(pCalendar_tts);
 
     Py_Finalize();
 
