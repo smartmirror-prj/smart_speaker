@@ -8,16 +8,20 @@ from google.cloud import speech
 
 def google_stt():
 
-    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/keyDir/stt_key.json.json")
-
+    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/smart_speaker/calendar/quickstart_google/stt_key.json")
+    
+    print("start google stt")
     reload(sys)
     sys.setdefaultencoding('utf-8')
 
+    print("start recording")
     os.system("arecord -D plughw:1,0 -f S16_LE -c1 -r16000 -d 3 input.wav")
     print("recording complete!")
 
 	# start stt
-    speech_client = speech.Client()
+    print("stt start!")
+    speech_client = speech.SpeechClient()
+    print("request set complete!")
 
     with io.open('input.wav', 'rb') as audio_file:
         content = audio_file.read()
@@ -30,3 +34,7 @@ def google_stt():
     alternatives = audio_sample.recognize('ko-KR')
     for alternative in alternatives:
         return alternative.transcript
+    
+
+if __name__ == '__main__':
+    google_stt()
