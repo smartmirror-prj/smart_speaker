@@ -6,10 +6,12 @@
 
 #define UNSET   0
 #define SET     1
+#define STT     2
 
 using namespace std;
 
 int event_tts(char* event_list);
+int stt(void);
 
 
 int main (int argc, char *const argv[])
@@ -18,7 +20,7 @@ int main (int argc, char *const argv[])
 	PyObject *pget_list;
     PyObject *pModule, *pName;
     string eventString;
-    int pyRun = SET, result= 0;
+    int pyRun = STT, result= 0;
 
     char* event_list = NULL;
 
@@ -67,7 +69,7 @@ int main (int argc, char *const argv[])
     else
     {
         PyErr_Print();
-        cout << "Failed to load 'calendar??'" << endl;
+        cout << "Failed to load google_stt" << endl;
         return 1;
     }
     
@@ -87,6 +89,11 @@ int main (int argc, char *const argv[])
             result = event_tts(event_list);
             printf("function event_tts resut : %d \n",result);
             break;
+        case STT:
+            puts("============ stt test =============");
+            result = stt();
+            printf("function stt resut : %d \n",result);
+            break;
         default:
             printf("case default : %d\n",pyRun);
             break;
@@ -94,6 +101,44 @@ int main (int argc, char *const argv[])
     return 0;
 }
 
+int stt()
+{
+    char* buf;
+    PyObject *pModule, *pName;
+    PyObject *pGoogle_stt, g_pArgs;
+    cout << "stt func start\n" << endl;
+
+    Py_Initialize();
+
+    /* start set path */
+    PyObject *sys = PyImport_ImportModule("sys");
+    PyObject *path = PyObject_GetAttrString(sys, "path");
+    PyList_Append(path, PyString_FromString("."));
+
+    pName = PyString_FromString("stt");
+    assert(pName != NULL);
+    pModule = PyImport_Import(pName);
+    assert(pModule != NULL);
+    pGoogle_stt = PyObject_GetAttrString(pModule, "google_stt");
+    cout << "return : " << pGoogle_stt << endl;
+    assert(pGoogle_stt != NULL);
+
+    if (!(pGoogle_stt && PyCallable_Check(pGoogle_stt)) )
+    {
+        if (PyErr_Occurred()) PyErr_Print();
+        std::cout << "Cannot find function 'stt'" << std::endl;
+        return 1;
+    }
+
+    Py_DECREF(pName);
+    Py_DECREF(pModule);
+    Py_DECREF(pGoogle_stt);
+
+    Py_Finalize();
+    cout << "function finish "<<endl;
+
+    return 0;
+}
 
 int event_tts(char* event_list)
 {
