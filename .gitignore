@@ -226,6 +226,11 @@ tags
 # google client key
 client_secret_*
 *.json
-example
+# vi file
 *.swp
 *.swo
+# ignore file
+example
+main
+input
+tmp
