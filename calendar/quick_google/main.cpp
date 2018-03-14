@@ -42,11 +42,11 @@ int main (int argc, char *const argv[])
         if (!(pget_list && PyCallable_Check(pget_list)) )
         {
             if (PyErr_Occurred()) PyErr_Print();
-            std::cout << "Cannot find function ''" << std::endl;
+            cout << "Cannot find function ''" << endl;
             return 1;
         }
 
-        g_pArgs = PyTuple_New(100); if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
+        g_pArgs = PyTuple_New(100);                     if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
         g_pArgs = PyObject_CallObject(pget_list, NULL); if(!g_pArgs)    printf("g_pArgs == NULL\n");
 
         /* python module implementaion */
@@ -129,6 +129,8 @@ int stt()
         std::cout << "Cannot find function 'stt'" << std::endl;
         return 1;
     }
+
+    PyObject_CallObject(pGoogle_stt, NULL);
 
     Py_DECREF(pName);
     Py_DECREF(pModule);
