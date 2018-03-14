@@ -33,7 +33,7 @@ def google_stt():
 
 	# start stt
     print("stt start!")
-#   speech_client = speech.SpeechClient()
+
     client = speech.SpeechClient()
     print("request set complete!")
 
@@ -51,18 +51,6 @@ def google_stt():
     for result in response.results: 
         print('Transcript: {}'.format(result.alternatives[0].transcript))
     # [END speech_quickstart]
-
-
-
-#       audio_sample = speech_client.sample(
-#           content=content,
-#           source_uri=None,
-#           encoding='LINEAR16',
-#           sample_rate_hertz=16000)
-#   alternatives = audio_sample.recognize('ko-KR')
-#   for alternative in alternatives:
-#       return alternative.transcript
-    
 
 if __name__ == '__main__':
     google_stt()
