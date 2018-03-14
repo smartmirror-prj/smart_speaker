@@ -13,10 +13,7 @@ from google.cloud.speech import types
 
 def google_stt():
 
-#   os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/smart_speaker/calendar/quickstart_google/smartMirror-speech-c0698d4d6c1b.json")
-    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/smart_speaker/calendar/quick_google/client_secret_292941919493-1n6ie58ttn9n7entefq8trqvbc1oo8qa.apps.googleusercontent.com.json")
-
-
+    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/smart_speaker/calendar/quick_google/master_key.json")
     # If you don't specify credentials when constructing the client, the
     # client library will look for credentials in the environment.
     storage_client = storage.Client()
