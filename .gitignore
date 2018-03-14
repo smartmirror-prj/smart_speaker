@@ -232,4 +232,5 @@ client_secret_*
 # ignore file
 example
 main
-input.wav
+input
+tmp
