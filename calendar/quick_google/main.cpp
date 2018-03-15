@@ -46,10 +46,12 @@ int main (int argc, char *const argv[])
             return 1;
         }
 
-        g_pArgs = PyTuple_New(100);                     if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
-        g_pArgs = PyObject_CallObject(pget_list, NULL); if(!g_pArgs)    printf("g_pArgs == NULL\n");
+        g_pArgs = PyTuple_New(100);                     //if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
+        assert(g_pArgs != NULL);
+        g_pArgs = PyObject_CallObject(pget_list, NULL); //if(!g_pArgs)    printf("g_pArgs == NULL\n");
+        assert(g_pArgs != NULL);
 
-        /* python module implementaion */
+      /* python module implementaion */
         puts("============================================================");
         puts("\t\t\tmain.cpp start                                          ");
         puts("============================================================");
@@ -81,6 +83,7 @@ int main (int argc, char *const argv[])
     Py_Finalize();
     printf("cpp End\n");
 
+for(int i=0;i<2;i++){
     switch(pyRun){
         case UNSET:
             printf("case UNSET : %d\n",pyRun);
@@ -98,6 +101,7 @@ int main (int argc, char *const argv[])
             printf("case default : %d\n",pyRun);
             break;
     }
+}
     return 0;
 }
 
