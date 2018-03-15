@@ -221,3 +221,16 @@ Session.vim
 tags
 
 # End of https://www.gitignore.io/api/c,vim,c++,linux,cmake,python,premake-gmake
+
+
+# google client key
+client_secret_*
+*.json
+# vi file
+*.swp
+*.swo
+# ignore file
+example
+main
+input.wav
+tmp.mp3
