@@ -5,7 +5,6 @@ import os
 import json
 from six.moves import urllib
 from google.oauth2 import service_account
-from google.cloud import speech_v1
 from google.cloud import speech
 from google.cloud import storage
 from google.cloud.speech import enums
@@ -13,7 +12,7 @@ from google.cloud.speech import types
 
 def google_stt():
 
-    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/pi/project/smart_speaker/calendar/quick_google/master_key.json")
+    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/ark/project/smartmirror/calendar/quick_google/my_stt_master_calendar.json")
     # If you don't specify credentials when constructing the client, the
     # client library will look for credentials in the environment.
     storage_client = storage.Client()
