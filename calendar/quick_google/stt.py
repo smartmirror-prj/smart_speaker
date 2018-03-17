@@ -11,8 +11,8 @@ from google.cloud.speech import enums
 from google.cloud.speech import types
 
 def google_stt():
+    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/media/ark/sub/smartmirror/calendar/quick_google/my_stt_master_calendar.json")
 
-    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/ark/project/smartmirror/calendar/quick_google/my_stt_master_calendar.json")
     # If you don't specify credentials when constructing the client, the
     # client library will look for credentials in the environment.
     storage_client = storage.Client()
