@@ -13,7 +13,6 @@ using namespace std;
 int event_tts(char* event_list);
 int stt(void);
 
-
 int main (int argc, char *const argv[])
 {
 	PyObject *pArgs, *g_pArgs;	//for get/set python function parameters
@@ -46,12 +45,12 @@ int main (int argc, char *const argv[])
             return 1;
         }
 
-        g_pArgs = PyTuple_New(100);                     //if(!g_pArgs)    printf("41 : g_pArgs == NULL\n");
-        assert(g_pArgs != NULL);
-        g_pArgs = PyObject_CallObject(pget_list, NULL); //if(!g_pArgs)    printf("g_pArgs == NULL\n");
+        g_pArgs = PyTuple_New(100);                      
+		assert(g_pArgs != NULL);
+        g_pArgs = PyObject_CallObject(pget_list, NULL); 
         assert(g_pArgs != NULL);
 
-      /* python module implementaion */
+ 	    /* python module implementaion */
         puts("============================================================");
         puts("\t\t\tmain.cpp start                                          ");
         puts("============================================================");
@@ -83,7 +82,8 @@ int main (int argc, char *const argv[])
     Py_Finalize();
     printf("cpp End\n");
 
-for(int i=0;i<2;i++){
+for(int i=0;i<2;i++)
+{
     switch(pyRun){
         case UNSET:
             printf("case UNSET : %d\n",pyRun);
@@ -95,7 +95,7 @@ for(int i=0;i<2;i++){
         case STT:
             puts("============ stt test =============");
             result = stt();
-            printf("function stt resut : %d \n",result);
+            printf("function stt resut : %d  i: %d\n",result,i);
             break;
         default:
             printf("case default : %d\n",pyRun);
@@ -109,7 +109,7 @@ int stt()
 {
     char* buf;
     PyObject *pModule, *pName;
-    PyObject *pGoogle_stt, g_pArgs;
+    PyObject *pGoogle_stt;
     cout << "stt func start\n" << endl;
 
     Py_Initialize();
@@ -139,6 +139,8 @@ int stt()
     Py_DECREF(pName);
     Py_DECREF(pModule);
     Py_DECREF(pGoogle_stt);
+    Py_DECREF(sys);
+    Py_DECREF(path);
 
     Py_Finalize();
     cout << "function finish "<<endl;

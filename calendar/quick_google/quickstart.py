@@ -42,7 +42,8 @@ Dbug = False
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
-CLIENT_SECRET_FILE = '/home/pi/project/smart_speaker/calendar/quick_google/calendar_key.json'
+#CLIENT_SECRET_FILE = '/media/ark/sub/smartmirror/calendar/quick_google/calendar_key.json'
+CLIENT_SECRET_FILE = '/home/ark/git_repo/smart_speaker/calendar/quick_google/calendar_key.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 # =================================================
