@@ -52,11 +52,12 @@ void run_main()
 
     switch(file_check)
     {
+        // No file 
         case -1:
-            puts("56 file");
+            puts("No file");
             break;
         case 0:
-            puts("59 input file ok");
+            puts("input file ok");
             break;
         default:
             puts("input file ok");
@@ -64,6 +65,12 @@ void run_main()
     }
     return;
 }
+
+// =========================================
+// main run program
+// =========================================
+
+
 
 // =========================================
 // file create check
