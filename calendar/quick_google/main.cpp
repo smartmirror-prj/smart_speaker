@@ -1,8 +1,9 @@
 #include <iostream>
+#include <errno.h>
 #include <string>
-//#include <Python.h>
 #include <python2.7/Python.h>
 #include <assert.h>
+//#include <io.h>
 
 #define UNSET   0
 #define SET     1
@@ -10,18 +11,98 @@
 
 using namespace std;
 
+void run_main(void);
+int record_check(void);
 int event_tts(char* event_list);
+int calendar(char* event_list);
 int stt(void);
 
+//    switch(pid)
+//    {
+//        case -1:
+//            printf("fork faile\n");
+//            return -1;
+//            break;
+//        case 0:
+//            break;
+//        default:
+//            break;
+//    }
+
 int main (int argc, char *const argv[])
+{
+    pid_t pid;
+//  char* event_list = NULL;
+
+    run_main();
+
+    return 0;
+}
+
+// =========================================
+// main run program
+// =========================================
+void run_main()
+{
+    int file_check = 0;
+    char inputfile[] = {"./input.wav"};
+
+    record_check();
+    file_check = access(inputfile , 00);
+
+    switch(file_check)
+    {
+        // No file 
+        case -1:
+            puts("No file");
+            break;
+        case 0:
+            puts("input file ok");
+            break;
+        default:
+            puts("input file ok");
+            break;
+    }
+    return;
+}
+
+// =========================================
+// main run program
+// =========================================
+
+
+
+// =========================================
+// file create check
+// =========================================
+int record_check()
+{
+    int check = 0;
+
+    check = system("./record_to_wav_level_check");
+
+    if(check != NULL)
+    {
+        perror("record program NULL");
+        exit (EXIT_FAILURE);
+    }
+    if(check == -1)
+    {
+        perror("fork error");
+        return -1;
+    }
+    if(check == 0)
+    {
+        perror("No shell is available");
+        return 0;
+    }
+}
+
+int calendar(char* event_list)
 {
 	PyObject *pArgs, *g_pArgs;	//for get/set python function parameters
 	PyObject *pget_list;
     PyObject *pModule, *pName;
-    string eventString;
-    int pyRun = STT, result= 0;
-
-    char* event_list = NULL;
 
     Py_Initialize();
 
@@ -33,6 +114,7 @@ int main (int argc, char *const argv[])
 	/* get python script */
   	pName = PyString_FromString("quickstart");
 	pModule = PyImport_Import(pName);
+
 
 	if (pModule != NULL)
 	{
@@ -52,7 +134,7 @@ int main (int argc, char *const argv[])
 
  	    /* python module implementaion */
         puts("============================================================");
-        puts("\t\t\tmain.cpp start                                          ");
+        puts("\t\t\tmain.cpp start                                        ");
         puts("============================================================");
         if(!PyString_AsString(g_pArgs)) // No event
             printf("No upcoming events found\n");
@@ -73,7 +155,7 @@ int main (int argc, char *const argv[])
         cout << "Failed to load google_stt" << endl;
         return 1;
     }
-    
+
     Py_DECREF(pget_list);
     Py_DECREF(pModule);
     Py_DECREF(pName);
@@ -81,28 +163,6 @@ int main (int argc, char *const argv[])
 
     Py_Finalize();
     printf("cpp End\n");
-
-for(int i=0;i<2;i++)
-{
-    switch(pyRun){
-        case UNSET:
-            printf("case UNSET : %d\n",pyRun);
-            break;
-        case SET:
-            result = event_tts(event_list);
-            printf("function event_tts resut : %d \n",result);
-            break;
-        case STT:
-            puts("============ stt test =============");
-            result = stt();
-            printf("function stt resut : %d  i: %d\n",result,i);
-            break;
-        default:
-            printf("case default : %d\n",pyRun);
-            break;
-    }
-}
-    return 0;
 }
 
 int stt()
@@ -110,9 +170,11 @@ int stt()
     char* buf;
     PyObject *pModule, *pName;
     PyObject *pGoogle_stt;
+
     cout << "stt func start\n" << endl;
 
-    Py_Initialize();
+    //Py_Initialize();
+    Py_IsInitialized();
 
     /* start set path */
     PyObject *sys = PyImport_ImportModule("sys");
@@ -154,12 +216,15 @@ int event_tts(char* event_list)
     PyObject *pttsNaver, *test, *pClass, *pInstance, *pCalendar_tts;
     PyObject *set_string;
 
+    int buf = 0;
+
     char type[]="s";
     char pyFunc_tts[] = "calendar_tts";
 
     printf("event_tts function : %s\n",event_list);
 
-    Py_Initialize();
+//  Py_Initialize();
+    Py_InitializeEx(0);
 
     /* start set path */
     PyObject *sys = PyImport_ImportModule("sys");
@@ -184,6 +249,9 @@ int event_tts(char* event_list)
     Py_DECREF(pCalendar_tts);
 
     Py_Finalize();
-
+//  if(Py_FinalizeEx() < 0)
+//      exit(120);
     return 1;
+
 }
+
