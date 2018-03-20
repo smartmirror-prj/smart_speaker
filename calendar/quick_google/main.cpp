@@ -1,7 +1,9 @@
 #include <iostream>
+#include <errno.h>
 #include <string>
 #include <python2.7/Python.h>
 #include <assert.h>
+//#include <io.h>
 
 #define UNSET   0
 #define SET     1
@@ -211,32 +213,10 @@ int event_tts(char* event_list)
     Py_DECREF(pInstance);
     Py_DECREF(pCalendar_tts);
 
-//  Py_Finalize();
-    if(Py_FinalizeEx() < 0)
-        exit(120);
+    Py_Finalize();
+//  if(Py_FinalizeEx() < 0)
+//      exit(120);
     return 1;
 
 }
 
-
-//for(int i=0;i<2;i++)
-//{
-//    switch(pyRun){
-//        case UNSET:
-//            printf("case UNSET : %d\n",pyRun);
-//            break;
-//        case SET:
-//            result = event_tts(event_list);
-//            printf("function event_tts resut : %d \n",result);
-//            break;
-//        case STT:
-//            puts("============ stt test =============");
-//            result = stt();
-////            printf("function stt resut : %d  i: %d\n",result,i);
-//            printf("function stt resut : %d  \n",result);
-//            break;
-//        default:
-//            printf("case default : %d\n",pyRun);
-//            break;
-//    }
-//}
