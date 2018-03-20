@@ -29,17 +29,36 @@ int stt(void);
 int main (int argc, char *const argv[])
 {
     pid_t pid;
-    char* event_list = NULL;
+//  char* event_list = NULL;
 
-    system("./record_to_wav_level_check");
+    record_check();
 
     // =========================================
     // file create check
     // =========================================
 
-
-
     return 0;
+}
+
+
+// =========================================
+// file create check
+// =========================================
+int record_check()
+{
+    if(!system("./record_to_wav_level_check"))
+        exit (EXIT_FAILURE);
+    if(system("./record_to_wav_level_check") == -1)
+    {
+        //error(_("fork error: %s"), snd_strerror(err));
+        error("fork error");
+        return -1;
+    }
+    if(system("./record_to_wav_level_check") == 0)
+    {
+        error("No shell is available");
+        return 0;
+    }
 }
 
 int calendar(char* event_list)
