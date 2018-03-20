@@ -11,10 +11,11 @@
 
 using namespace std;
 
+void run_main(void);
+int record_check(void);
 int event_tts(char* event_list);
 int calendar(char* event_list);
 int stt(void);
-
 
 //    switch(pid)
 //    {
@@ -33,32 +34,59 @@ int main (int argc, char *const argv[])
     pid_t pid;
 //  char* event_list = NULL;
 
-    record_check();
-
-    // =========================================
-    // file create check
-    // =========================================
+    run_main();
 
     return 0;
 }
 
+// =========================================
+// main run program
+// =========================================
+void run_main()
+{
+    int file_check = 0;
+    char inputfile[] = {"./input.wav"};
+
+    record_check();
+    file_check = access(inputfile , 00);
+
+    switch(file_check)
+    {
+        case -1:
+            puts("56 file");
+            break;
+        case 0:
+            puts("59 input file ok");
+            break;
+        default:
+            puts("input file ok");
+            break;
+    }
+    return;
+}
 
 // =========================================
 // file create check
 // =========================================
 int record_check()
 {
-    if(!system("./record_to_wav_level_check"))
-        exit (EXIT_FAILURE);
-    if(system("./record_to_wav_level_check") == -1)
+    int check = 0;
+
+    check = system("./record_to_wav_level_check");
+
+    if(check != NULL)
     {
-        //error(_("fork error: %s"), snd_strerror(err));
-        error("fork error");
+        perror("record program NULL");
+        exit (EXIT_FAILURE);
+    }
+    if(check == -1)
+    {
+        perror("fork error");
         return -1;
     }
-    if(system("./record_to_wav_level_check") == 0)
+    if(check == 0)
     {
-        error("No shell is available");
+        perror("No shell is available");
         return 0;
     }
 }
