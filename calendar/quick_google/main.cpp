@@ -3,38 +3,50 @@
 #include <string>
 #include <python2.7/Python.h>
 #include <assert.h>
-//#include <io.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
 
 #define UNSET   0
 #define SET     1
 #define STT     2
+#define DBUG    SET
 
 using namespace std;
 
 void run_main(void);
-int record_check(void);
+int record_input_wav_exe(void);
+int file_checkFunction();
 int event_tts(char* event_list);
 int calendar(char* event_list);
 int stt(void);
 
-//    switch(pid)
-//    {
-//        case -1:
-//            printf("fork faile\n");
-//            return -1;
-//            break;
-//        case 0:
-//            break;
-//        default:
-//            break;
-//    }
+string pi_name = "파이";
+pthread_mutex_t mutx;
+int run = 1;
 
 int main (int argc, char *const argv[])
 {
     pid_t pid;
-//  char* event_list = NULL;
+    pthread_t t1,t2;
+    void *thread_result;
+    int record_state = 0;
+    int state = 0;
 
-    run_main();
+    pthread_create(&t1,NULL,thread_increment, &);
+
+    state = pthread_mutex_init(&mutx, NULL);
+
+    pid = fork();
+
+
+    while(run != 0){
+        record_state = record_input_wav_exe();
+        run_main();
+    }
 
     return 0;
 }
@@ -42,40 +54,66 @@ int main (int argc, char *const argv[])
 // =========================================
 // main run program
 // =========================================
-void run_main()
+//void run_main()
+//{
+//    int file_check = 0;
+//    char inputfile[] = {"./input.wav"};
+//
+//    file_check = access(inputfile , F_OK);
+//
+//    switch(file_check)
+//    {
+//        // No file 
+//        case -1:
+//            puts("No file");
+//            break;
+//        // Ok file 
+//        case 0:
+//        // ================== file check function =================
+//            if(file_checkFunction()){
+//                puts("no record");
+//                run = 0;
+//                break;
+//            }
+//            else {
+//                puts("file size 44 over");
+//                stt();
+//            }
+//            break;
+//        // No file 
+//        default:
+//            puts("input file ok");
+//            break;
+//    }
+//    return;
+//}
+
+// =========================================
+// file check function
+// =========================================
+int file_checkFunction()
 {
-    int file_check = 0;
-    char inputfile[] = {"./input.wav"};
+    struct stat st;
+    long long size;
 
-    record_check();
-    file_check = access(inputfile , 00);
+    stat("./input.wav", &st);
+    size = st.st_size;
 
-    switch(file_check)
-    {
-        // No file 
-        case -1:
-            puts("No file");
-            break;
-        case 0:
-            puts("input file ok");
-            break;
-        default:
-            puts("input file ok");
-            break;
+    if(size <= 100){
+        if(DBUG) printf("No record file %lld\n",size);
+        return -1;
+    } else {
+        if(DBUG) printf("input.wav file size : %lld\n",size);
+        return 1;
     }
-    return;
 }
 
-// =========================================
-// main run program
-// =========================================
-
 
 
 // =========================================
-// file create check
+// input.wav file create
 // =========================================
-int record_check()
+int record_input_wav_exe()
 {
     int check = 0;
 
@@ -83,7 +121,7 @@ int record_check()
 
     if(check != NULL)
     {
-        perror("record program NULL");
+        perror("record program NULL error");
         exit (EXIT_FAILURE);
     }
     if(check == -1)
