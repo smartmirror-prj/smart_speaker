@@ -4,15 +4,20 @@
 #include <python2.7/Python.h>
 #include <assert.h>
 //#include <io.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #define UNSET   0
 #define SET     1
 #define STT     2
+#define DBUG    SET
 
 using namespace std;
 
 void run_main(void);
 int record_check(void);
+int file_checkFunction();
 int event_tts(char* event_list);
 int calendar(char* event_list);
 int stt(void);
@@ -56,9 +61,16 @@ void run_main()
         case -1:
             puts("No file");
             break;
+        // Ok file 
         case 0:
-            puts("input file ok");
+            // ================== file check function =================
+            if(file_checkFunction())
+                puts("file size 44 over ");
+            else 
+                puts("under");
+
             break;
+        // No file 
         default:
             puts("input file ok");
             break;
@@ -67,8 +79,24 @@ void run_main()
 }
 
 // =========================================
-// main run program
+// file check function
 // =========================================
+int file_checkFunction()
+{
+    struct stat st;
+    long long size;
+
+    stat("./input.wav", &st);
+    size = st.st_size;
+
+    if(size <= 44){
+        if(DBUG) printf("No record file %lld\n",size);
+        return 0;
+    } else {
+        if(DBUG) printf("file size : %lld\n",size);
+        return 1;
+    }
+}
 
 
 
