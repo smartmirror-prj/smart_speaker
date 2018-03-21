@@ -16,7 +16,7 @@
 using namespace std;
 
 void run_main(void);
-int record_check(void);
+int record_input_wav_exe(void);
 int file_checkFunction();
 int event_tts(char* event_list);
 int calendar(char* event_list);
@@ -37,8 +37,8 @@ int stt(void);
 int main (int argc, char *const argv[])
 {
     pid_t pid;
-//  char* event_list = NULL;
 
+    record_input_wav_exe();
     run_main();
 
     return 0;
@@ -52,8 +52,7 @@ void run_main()
     int file_check = 0;
     char inputfile[] = {"./input.wav"};
 
-    record_check();
-    file_check = access(inputfile , 00);
+    file_check = access(inputfile , F_OK);
 
     switch(file_check)
     {
@@ -63,12 +62,7 @@ void run_main()
             break;
         // Ok file 
         case 0:
-            // ================== file check function =================
-            if(file_checkFunction())
-                puts("file size 44 over ");
-            else 
-                puts("under");
-
+        // ================== file check function =================
             break;
         // No file 
         default:
@@ -101,9 +95,9 @@ int file_checkFunction()
 
 
 // =========================================
-// file create check
+// input.wav file create
 // =========================================
-int record_check()
+int record_input_wav_exe()
 {
     int check = 0;
 
@@ -111,7 +105,7 @@ int record_check()
 
     if(check != NULL)
     {
-        perror("record program NULL");
+        perror("record program NULL error");
         exit (EXIT_FAILURE);
     }
     if(check == -1)
