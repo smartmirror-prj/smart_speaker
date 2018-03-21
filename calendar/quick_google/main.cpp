@@ -36,35 +36,17 @@ int main (int argc, char *const argv[])
     int record_state = 0;
     int state = 0;
 
-//    pthread_create(&t1,NULL,thread_increment, &);
+    pthread_create(&t1,NULL,thread_increment, &);
 
     state = pthread_mutex_init(&mutx, NULL);
 
     pid = fork();
 
-    int i = 0;
-while(i < 50){
-    switch(pid)
-    {
-        case 0:
-            printf("child, pid :%d \n",pid);
-            break;
-        case -1:
-            perror("fork error");
-            break;
-        default:
-            printf("perants, pid : %d\n",pid);
-            break;
-    }
-    sleep(1);
-    i++;
-}
 
-//    while(run != 0){
-//        record_state = record_input_wav_exe();
-//        run_main();
-//    }
-    // ============== file size over 44
+    while(run != 0){
+        record_state = record_input_wav_exe();
+        run_main();
+    }
 
     return 0;
 }
