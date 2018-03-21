@@ -3,10 +3,12 @@
 #include <string>
 #include <python2.7/Python.h>
 #include <assert.h>
-//#include <io.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
 
 #define UNSET   0
 #define SET     1
@@ -22,24 +24,28 @@ int event_tts(char* event_list);
 int calendar(char* event_list);
 int stt(void);
 
-//    switch(pid)
-//    {
-//        case -1:
-//            printf("fork faile\n");
-//            return -1;
-//            break;
-//        case 0:
-//            break;
-//        default:
-//            break;
-//    }
+string pi_name = "파이";
+pthread_mutex_t mutx;
+int run = 1;
 
 int main (int argc, char *const argv[])
 {
     pid_t pid;
+    pthread_t t1,t2;
+    void *thread_result;
+    int record_state = 0;
+    int state = 0;
 
-    record_input_wav_exe();
-    run_main();
+//    pthread_create(&t1,NULL,thread_increment, &);
+
+    state = pthread_mutex_init(&mutx, NULL);
+
+
+    while(run != 0){
+        record_state = record_input_wav_exe();
+        run_main();
+    }
+    // ============== file size over 44
 
     return 0;
 }
@@ -47,30 +53,39 @@ int main (int argc, char *const argv[])
 // =========================================
 // main run program
 // =========================================
-void run_main()
-{
-    int file_check = 0;
-    char inputfile[] = {"./input.wav"};
-
-    file_check = access(inputfile , F_OK);
-
-    switch(file_check)
-    {
-        // No file 
-        case -1:
-            puts("No file");
-            break;
-        // Ok file 
-        case 0:
-        // ================== file check function =================
-            break;
-        // No file 
-        default:
-            puts("input file ok");
-            break;
-    }
-    return;
-}
+//void run_main()
+//{
+//    int file_check = 0;
+//    char inputfile[] = {"./input.wav"};
+//
+//    file_check = access(inputfile , F_OK);
+//
+//    switch(file_check)
+//    {
+//        // No file 
+//        case -1:
+//            puts("No file");
+//            break;
+//        // Ok file 
+//        case 0:
+//        // ================== file check function =================
+//            if(file_checkFunction()){
+//                puts("no record");
+//                run = 0;
+//                break;
+//            }
+//            else {
+//                puts("file size 44 over");
+//                stt();
+//            }
+//            break;
+//        // No file 
+//        default:
+//            puts("input file ok");
+//            break;
+//    }
+//    return;
+//}
 
 // =========================================
 // file check function
@@ -83,11 +98,11 @@ int file_checkFunction()
     stat("./input.wav", &st);
     size = st.st_size;
 
-    if(size <= 44){
+    if(size <= 100){
         if(DBUG) printf("No record file %lld\n",size);
-        return 0;
+        return -1;
     } else {
-        if(DBUG) printf("file size : %lld\n",size);
+        if(DBUG) printf("input.wav file size : %lld\n",size);
         return 1;
     }
 }
