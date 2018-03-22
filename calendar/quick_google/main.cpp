@@ -17,7 +17,7 @@
 
 using namespace std;
 
-void run_main(void);
+//void run_main(void);
 int record_input_wav_exe(void);
 int file_checkFunction();
 int event_tts(char* event_list);
@@ -36,17 +36,17 @@ int main (int argc, char *const argv[])
     int record_state = 0;
     int state = 0;
 
-    pthread_create(&t1,NULL,thread_increment, &);
+    cout << "sys start" << endl;
+    system("python quickstart.py");
 
-    state = pthread_mutex_init(&mutx, NULL);
+//  pthread_create(&t1,NULL,thread_increment, &);
+//  state = pthread_mutex_init(&mutx, NULL);
+//  pid = fork();
 
-    pid = fork();
-
-
-    while(run != 0){
-        record_state = record_input_wav_exe();
-        run_main();
-    }
+//  while(run != 0){
+//      record_state = record_input_wav_exe();
+//      run_main();
+//  }
 
     return 0;
 }

@@ -261,7 +261,7 @@ def main():
     Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
-#   get_eventTodayList_standnowtime()
+    get_eventTodayList_standnowtime()
     if Dbug is 1:
         get_list()
 
