@@ -1,0 +1,16 @@
+string CalendarK = "일정";
+string CalendarE = "캘린더";
+
+{
+    if( (Buffer.find(CalendarK) != string::npos) )   {
+        cout << "ttttttttttttttttttttttttt" << endl;
+        strcpy(Function,CALENDAR);
+        break;
+    }
+    if( (Buffer.find(CalendarE) != string::npos) ){
+        cout << "aaaaaaaaaaaaaaaaaaaaaaa" <<endl;
+        strcpy(Function,CALENDAR);
+        break;
+    }
+}
+
