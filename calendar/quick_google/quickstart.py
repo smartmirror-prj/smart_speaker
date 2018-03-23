@@ -258,7 +258,7 @@ def standard_theday_event():
 
 
 def main():
-    Dbug = 0
+#   Dbug = 0
 #   print(time_check("2018-02-04"))
 #   get_calendar_info()
     get_eventTodayList_standnowtime()
