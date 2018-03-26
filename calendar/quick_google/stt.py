@@ -13,10 +13,6 @@ from google.cloud.speech import types
 def google_stt():
     os.system("export GOOGLE_APPLICATION_CREDENTIALS=/media/ark/sub/smartmirror/calendar/quick_google/my_stt_master_calendar.json")
 
-<<<<<<< HEAD
-    os.system("export GOOGLE_APPLICATION_CREDENTIALS=/home/ark/git_repo/smart_speaker/calendar/quick_google/my_stt_master_calendar.json")
-=======
->>>>>>> feature/stt_tts_test
     # If you don't specify credentials when constructing the client, the
     # client library will look for credentials in the environment.
     storage_client = storage.Client()
